@@ -1,0 +1,370 @@
+generated: '2026-08-02'
+method: searched
+source: https://github.com/aalyria/api (Apache-2.0, ref main, cloned 2026-08-02)
+format: proto3
+transport: gRPC
+license: Apache-2.0
+note: Copied verbatim from the aalyria/api repository, preserving the upstream api/ directory layout so
+  proto import paths resolve with -I grpc.
+summary:
+  files: 45
+  services: 13
+  rpcs: 182
+  messages: 512
+files:
+- file: api/audit/v1alpha/audit_logs.proto
+  package: aalyria.spacetime.api.audit.v1alpha
+  messages: 6
+  services:
+  - AuditLogService
+  rpcs:
+  - ListAuditMessages
+- file: api/federation/interconnect/v1alpha/interconnect.proto
+  package: outernet.federation.interconnect.v1alpha
+  messages: 31
+  services:
+  - InterconnectService
+  rpcs:
+  - CreateAttachmentCircuit
+  - CreateBearer
+  - CreateTransceiver
+  - DeleteAttachmentCircuit
+  - DeleteBearer
+  - DeleteTransceiver
+  - GetAttachmentCircuit
+  - GetBearer
+  - GetTarget
+  - GetTransceiver
+  - ListAttachmentCircuits
+  - ListBearers
+  - ListCompatibleTransceiverTypes
+  - ListContactWindows
+  - ListTargets
+  - ListTransceivers
+  - UpdateTransceiver
+- file: api/federation/transponder/v1alpha/transponder.proto
+  package: outernet.federation.transponder.v1alpha
+  messages: 29
+  services:
+  - TransponderService
+  rpcs:
+  - CreateChannel
+  - DeleteChannel
+  - GetChannel
+  - GetReceiveBeam
+  - GetSatellite
+  - GetTransmitBeam
+  - GetTransponder
+  - ListChannels
+  - ListReceiveBeams
+  - ListSatellites
+  - ListTransmitBeams
+  - ListTransponders
+  - UpdateChannel
+- file: api/model/v0/model.proto
+  package: aalyria.spacetime.api.model.v0
+  messages: 13
+  services:
+  - Model
+  rpcs:
+  - DeleteEntity
+  - DeleteRelationship
+  - GetEntity
+  - InsertRelationship
+  - ListElements
+  - UpdateEntity
+  - UpsertEntity
+- file: api/model/v1/model.proto
+  package: aalyria.spacetime.api.model.v1
+  messages: 13
+  services:
+  - Model
+  rpcs:
+  - CreateEntity
+  - CreateRelationship
+  - DeleteEntity
+  - DeleteRelationship
+  - GetEntity
+  - ListEntities
+  - ListRelationships
+  - UpdateEntity
+  - UpsertFragment
+- file: api/permissions/v1alpha/permissions.proto
+  package: aalyria.spacetime.api.permissions.v1alpha
+  messages: 9
+  services:
+  - Permissions
+  rpcs:
+  - CheckPermission
+  - CheckPermissions
+  - ListAuthorizationConfigRevisions
+  - UpdateAuthorizationConfig
+- file: api/provisioning/v1alpha/provisioning.proto
+  package: aalyria.spacetime.api.provisioning.v1alpha
+  messages: 86
+  services:
+  - Provisioning
+  rpcs:
+  - CreateDisjointAssociationGroup
+  - CreateDowntime
+  - CreateEirpsdMaskLimit
+  - CreateEmissionsLimit
+  - CreateGeographicRegion
+  - CreateLink
+  - CreateP2mpSrTePolicy
+  - CreateP2mpSrTePolicyCandidatePath
+  - CreateP2pSrTePolicy
+  - CreateP2pSrTePolicyCandidatePath
+  - CreatePointingConstraint
+  - CreateProtectionAssociationGroup
+  - DeleteDisjointAssociationGroup
+  - DeleteDowntime
+  - DeleteEirpsdMaskLimit
+  - DeleteEmissionsLimit
+  - DeleteGeographicRegion
+  - DeleteLink
+  - DeleteP2mpSrTePolicy
+  - DeleteP2mpSrTePolicyCandidatePath
+  - DeleteP2pSrTePolicy
+  - DeleteP2pSrTePolicyCandidatePath
+  - DeletePointingConstraint
+  - DeleteProtectionAssociationGroup
+  - GetDisjointAssociationGroup
+  - GetDowntime
+  - GetEirpsdMaskLimit
+  - GetEmissionsLimit
+  - GetGeographicRegion
+  - GetLink
+  - GetP2mpSrTePolicy
+  - GetP2mpSrTePolicyCandidatePath
+  - GetP2pSrTePolicy
+  - GetP2pSrTePolicyCandidatePath
+  - GetPointingConstraint
+  - GetProtectionAssociationGroup
+  - ListDisjointAssociationGroups
+  - ListDowntimes
+  - ListEirpsdMaskLimits
+  - ListEmissionsLimits
+  - ListGeographicRegions
+  - ListLinks
+  - ListP2mpSrTePolicies
+  - ListP2mpSrTePolicyCandidatePaths
+  - ListP2pSrTePolicies
+  - ListP2pSrTePolicyCandidatePaths
+  - ListPointingConstraints
+  - ListProtectionAssociationGroups
+  - UpdateDisjointAssociationGroup
+  - UpdateDowntime
+  - UpdateEirpsdMaskLimit
+  - UpdateEmissionsLimit
+  - UpdateGeographicRegion
+  - UpdateLink
+  - UpdateP2mpSrTePolicy
+  - UpdateP2mpSrTePolicyCandidatePath
+  - UpdateP2pSrTePolicy
+  - UpdateP2pSrTePolicyCandidatePath
+  - UpdatePointingConstraint
+  - UpdateProtectionAssociationGroup
+- file: api/scheduling/v1alpha/scheduling.proto
+  package: aalyria.spacetime.scheduling.v1alpha
+  messages: 35
+  services:
+  - Scheduling
+  rpcs:
+  - ReceiveRequests
+  - Reset
+- file: api/simulation/v1alpha/simulation.proto
+  package: aalyria.spacetime.api.simulation.v1alpha
+  messages: 74
+  services:
+  - SimulationService
+  rpcs:
+  - CopyScenario
+  - CreateAnalysis
+  - CreateDisjointAssociationGroup
+  - CreateDowntime
+  - CreateNetworkModelEntity
+  - CreateNetworkModelRelationship
+  - CreateP2pSrTePolicy
+  - CreateP2pSrTePolicyCandidatePath
+  - CreateProtectionAssociationGroup
+  - CreateScenario
+  - CreateSimulation
+  - DeleteAnalysis
+  - DeleteDisjointAssociationGroup
+  - DeleteDowntime
+  - DeleteNetworkModelEntity
+  - DeleteNetworkModelRelationship
+  - DeleteP2pSrTePolicy
+  - DeleteP2pSrTePolicyCandidatePath
+  - DeleteProtectionAssociationGroup
+  - DeleteScenario
+  - DeleteSimulation
+  - GetAnalysis
+  - GetDisjointAssociationGroup
+  - GetDowntime
+  - GetNetworkModelEntity
+  - GetNetworkModelRelationship
+  - GetP2pSrTePolicy
+  - GetP2pSrTePolicyCandidatePath
+  - GetProtectionAssociationGroup
+  - GetScenario
+  - GetSimulation
+  - ListAnalyses
+  - ListDisjointAssociationGroups
+  - ListDowntimes
+  - ListNetworkModelEntities
+  - ListNetworkModelRelationships
+  - ListP2pSrTePolicies
+  - ListP2pSrTePolicyCandidatePaths
+  - ListProtectionAssociationGroups
+  - ListScenarios
+  - ListSimulations
+  - UpdateDisjointAssociationGroup
+  - UpdateDowntime
+  - UpdateNetworkModelEntity
+  - UpdateP2pSrTePolicy
+  - UpdateP2pSrTePolicyCandidatePath
+  - UpdateProtectionAssociationGroup
+  - UpdateScenario
+- file: api/solution/v1alpha/solution.proto
+  package: aalyria.spacetime.api.solution.v1alpha
+  messages: 15
+  services:
+  - Solution
+  rpcs:
+  - GetBeam
+  - GetP2pSrTePolicyCandidatePath
+  - QueryBeams
+  - QueryP2pSrTePolicyCandidatePaths
+- file: api/solution/v1alpha/solution_mutation.proto
+  package: aalyria.spacetime.api.solution.v1alpha
+  messages: 20
+  services:
+  - SolutionMutation
+  rpcs:
+  - BatchCreateBeams
+  - BatchCreateP2pSrTePolicyCandidatePaths
+  - BatchDeleteBeams
+  - BatchDeleteP2pSrTePolicyCandidatePaths
+  - BatchUpdateBeams
+  - BatchUpdateP2pSrTePolicyCandidatePaths
+  - CreateBeam
+  - CreateP2pSrTePolicyCandidatePath
+  - DeleteBeam
+  - DeleteP2pSrTePolicyCandidatePath
+  - PurgeBeams
+  - PurgeP2pSrTePolicyCandidatePaths
+  - UpdateBeam
+  - UpdateP2pSrTePolicyCandidatePath
+- file: api/status/v1/status.proto
+  package: aalyria.spacetime.api.status.v1
+  messages: 4
+  services:
+  - StatusService
+  rpcs:
+  - GetMetrics
+  - GetVersion
+- file: api/telemetry/v1alpha/telemetry.proto
+  package: aalyria.spacetime.api.telemetry.v1alpha
+  messages: 7
+  services:
+  - Telemetry
+  rpcs:
+  - ExportMetrics
+- file: api/common/bent_pipe.proto
+  package: aalyria.spacetime.api.common
+  messages: 1
+- file: api/common/channel.proto
+  package: aalyria.spacetime.api.common
+  messages: 1
+- file: api/common/control.proto
+  package: aalyria.spacetime.api.common
+  messages: 6
+- file: api/common/control_beam.proto
+  package: aalyria.spacetime.api.common
+  messages: 6
+- file: api/common/control_flow.proto
+  package: aalyria.spacetime.api.common
+  messages: 3
+- file: api/common/control_radio.proto
+  package: aalyria.spacetime.api.common
+  messages: 5
+- file: api/common/coordinates.proto
+  package: aalyria.spacetime.api.common
+  messages: 24
+- file: api/common/field_mask.proto
+  package: aalyria.spacetime.api.common
+  messages: 1
+- file: api/common/network.proto
+  package: aalyria.spacetime.api.common
+  messages: 6
+- file: api/common/platform.proto
+  package: aalyria.spacetime.api.common
+  messages: 2
+- file: api/common/platform_antenna.proto
+  package: aalyria.spacetime.api.common
+  messages: 5
+- file: api/common/telemetry.proto
+  package: aalyria.spacetime.api.common
+  messages: 11
+- file: api/common/threegpp.proto
+  package: aalyria.spacetime.api.common
+  messages: 10
+- file: api/common/time.proto
+  package: aalyria.spacetime.api.common
+  messages: 4
+- file: api/common/wireless.proto
+  package: aalyria.spacetime.api.common
+  messages: 3
+- file: api/common/wireless_modcod.proto
+  package: aalyria.spacetime.api.common
+  messages: 1
+- file: api/common/wireless_receiver.proto
+  package: aalyria.spacetime.api.common
+  messages: 5
+- file: api/common/wireless_transceiver.proto
+  package: aalyria.spacetime.api.common
+  messages: 3
+- file: api/common/wireless_transmitter.proto
+  package: aalyria.spacetime.api.common
+  messages: 3
+- file: api/nbi/v1alpha/resources/antenna_pattern.proto
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  messages: 1
+- file: api/nbi/v1alpha/resources/coverage.proto
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  messages: 16
+- file: api/nbi/v1alpha/resources/devices_in_region.proto
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  messages: 1
+- file: api/nbi/v1alpha/resources/intent.proto
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  messages: 14
+- file: api/nbi/v1alpha/resources/network_element.proto
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  messages: 5
+- file: api/nbi/v1alpha/resources/network_link.proto
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  messages: 16
+- file: api/nbi/v1alpha/resources/service_request.proto
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  messages: 1
+- file: api/nbi/v1alpha/resources/wireless_evaluation.proto
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  messages: 5
+- file: api/nbi/v1alpha/resources/wireless_interference.proto
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  messages: 5
+- file: api/provisioning/v1alpha/position_varying_uv_mask.proto
+  package: aalyria.spacetime.api.provisioning.v1alpha
+  messages: 1
+- file: api/provisioning/v1alpha/te.proto
+  package: aalyria.spacetime.api.provisioning.v1alpha
+  messages: 1
+- file: api/types/ethernet.proto
+  package: aalyria.spacetime.api.types
+  messages: 1
+- file: api/types/ietf.proto
+  package: aalyria.spacetime.api.types
+  messages: 3

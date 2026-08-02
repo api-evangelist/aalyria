@@ -1,0 +1,76 @@
+generated: '2026-08-02'
+method: searched
+source: https://docs.spacetime.aalyria.com/api/client-libraries/
+docs: https://docs.spacetime.aalyria.com/api/client-libraries/
+note: 'Aalyria publishes client libraries for two languages, Go and Python. Neither
+  is distributed through the public default registry: the Go modules resolve through
+  an Aalyria-operated module proxy under the aalyria.com/spacetime/* path, and the
+  Python packages come from an Aalyria-hosted package index rather than PyPI. The
+  generated Java stubs exist in the repository but are not published to Maven Central.
+  Probed 2026-08-02: pypi.org/pypi/spacetime-api 404, registry.npmjs.org/@aalyria/api
+  404, proxy.golang.org/aalyria.com/spacetime/api/@v/list 404 (private proxy).'
+packages:
+- language: go
+  registry: aalyria-go-module-proxy
+  name: aalyria.com/spacetime/*
+  install: go get aalyria.com/spacetime/common
+  url: https://docs.spacetime.aalyria.com/api/client-libraries/
+  minimum_runtime: Go 1.19+
+  official: true
+  public: false
+  note: Resolved through an Aalyria module proxy, configured with GOPROXY/GOPRIVATE
+    environment variables.
+- language: go
+  registry: pkg.go.dev
+  name: github.com/aalyria/api
+  install: go get github.com/aalyria/api
+  url: https://pkg.go.dev/github.com/aalyria/api
+  http_status: 200
+  official: true
+  public: true
+  note: 'The Apache-2.0 API repository itself is a Go module and is indexed on pkg.go.dev;
+    it carries the generated protobuf/gRPC stubs, the reference SBI agent, and the
+    nbictl tool.'
+- language: go
+  registry: aalyria-go-module-proxy
+  name: outernetcouncil.org/nmts/v1
+  install: go get outernetcouncil.org/nmts/v1
+  url: https://docs.spacetime.aalyria.com/api/client-libraries/
+  official: false
+  public: false
+  note: 'Network Model for Temporospatial Systems (NMTS) — the Outernet Council data
+    model the Spacetime Model API is built on. Required alongside the Spacetime Go
+    modules; proxy configuration documented in the client libraries guide.'
+- language: python
+  registry: aalyria-python-index
+  name: spacetime-api
+  install: pip install spacetime-api --extra-index-url https://us-central1-python.pkg.dev/a5a-spacetime-artifacts/py-packages/simple
+  url: https://docs.spacetime.aalyria.com/api/client-libraries/
+  minimum_runtime: Python 3+
+  official: true
+  public: false
+  note: 'Metapackage. Individual component packages (e.g. spacetime-common) are published
+    to the same index. Not on PyPI (probed 404, 2026-08-02).'
+generated_stubs:
+- language: java
+  path: java/ in github.com/aalyria/api
+  published: false
+  note: Generated Java protobuf/gRPC stubs are built from source with Bazel; no Maven
+    Central artifact was found.
+- language: rust
+  path: Cargo.toml / lib.rs in github.com/aalyria/api
+  published: false
+  note: A Cargo manifest is present in the repository; no crates.io release was found.
+registries_probed:
+- registry: pypi
+  query: spacetime-api
+  status: 404
+- registry: npm
+  query: '@aalyria/api'
+  status: 404
+- registry: proxy.golang.org
+  query: aalyria.com/spacetime/api
+  status: 404
+- registry: pkg.go.dev
+  query: github.com/aalyria/api
+  status: 200

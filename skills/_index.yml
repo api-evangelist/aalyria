@@ -1,0 +1,70 @@
+generated: '2026-08-02'
+method: generated
+source: grpc/ (RPC names verified verbatim against the published protos) + https://docs.spacetime.aalyria.com/
+note: 'Aalyria publishes no AGENTS.md and no provider-authored agent skills (searched
+  the GitHub org and docs site, 2026-08-02). These are API Evangelist generated operating
+  instructions, one per marquee Spacetime flow. Every RPC named in a skill was grepped
+  out of grpc/api/**; none was invented.'
+grounded_in: grpc/aalyria-grpc-index.yml
+skills:
+- file: aalyria-connect-and-verify-instance.md
+  name: Connect to a Spacetime instance and verify credentials
+  api: grpc/api/status/v1/status.proto
+  operations:
+  - GetVersion
+  - GetMetrics
+- file: aalyria-build-network-model.md
+  name: Build and maintain the Spacetime network model
+  api: grpc/api/model/v1/model.proto
+  operations:
+  - CreateEntity
+  - UpdateEntity
+  - DeleteEntity
+  - GetEntity
+  - ListEntities
+  - CreateRelationship
+  - DeleteRelationship
+  - ListRelationships
+  - UpsertFragment
+- file: aalyria-provision-and-inspect-routes.md
+  name: Provision traffic-engineering intent and inspect the computed solution
+  api: grpc/api/provisioning/v1alpha/provisioning.proto
+  operations:
+  - CreateLink
+  - ListLinks
+  - CreateP2pSrTePolicy
+  - ListP2pSrTePolicies
+  - CreateP2pSrTePolicyCandidatePath
+  - CreateDowntime
+  - ListDowntimes
+  - QueryBeams
+  - GetBeam
+  - QueryP2pSrTePolicyCandidatePaths
+- file: aalyria-operate-sbi-agent.md
+  name: Operate a Spacetime SBI agent (control stream and telemetry)
+  api: grpc/api/scheduling/v1alpha/scheduling.proto
+  operations:
+  - ReceiveRequests
+  - Reset
+  - ExportMetrics
+- file: aalyria-federate-with-peer-network.md
+  name: Federate capacity with a peer network operator
+  api: grpc/api/federation/interconnect/v1alpha/interconnect.proto
+  operations:
+  - ListTargets
+  - GetTarget
+  - ListCompatibleTransceiverTypes
+  - ListTransceivers
+  - GetTransceiver
+  - ListContactWindows
+  - CreateBearer
+  - ListBearers
+  - GetBearer
+  - DeleteBearer
+  - CreateAttachmentCircuit
+  - ListAttachmentCircuits
+  - GetAttachmentCircuit
+  - DeleteAttachmentCircuit
+  - ListTransponders
+  - ListChannels
+  - CreateChannel

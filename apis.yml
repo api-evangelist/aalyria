@@ -1,18 +1,141 @@
 aid: aalyria
 name: Aalyria
-description: 'Aalyria is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Aalyria Technologies builds software and hardware for operating resilient,
+  high-throughput networks in motion across space, air, land and sea. Its flagship
+  platform, Spacetime, is a temporospatial software-defined networking (SDN) system
+  that models the time-dynamic position and orientation of satellites, aircraft, ships
+  and ground stations, then continuously plans, schedules and steers the links between
+  them. Spacetime is programmable through three open, Apache-2.0 licensed gRPC/Protocol
+  Buffers APIs published at github.com/aalyria/api: a Northbound Interface (NBI) for
+  defining and orchestrating the network model and provisioning traffic-engineering
+  policies, a Southbound Interface (SBI, also called CDPI) through which participating
+  devices receive schedule updates and push telemetry, and a Federation (East-West)
+  API through which peer network operators request and supply interconnections and
+  capacity. Aalyria also produces Tightbeam, a free-space optical communications system.
+  The company was spun out of Alphabet in 2022, carrying technology developed for
+  Project Loon and Taara.'
 url: https://raw.githubusercontent.com/api-evangelist/aalyria/refs/heads/main/apis.yml
+image: https://kinlane-productions2.s3.amazonaws.com/api-evangelist-site/companies/aalyria.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment-pipeline
 specificationVersion: '0.20'
 created: '2026-08-02'
 modified: '2026-08-02'
 tags:
 - Company
-apis: []
+- Networking
+- Satellite
+- Space
+- Telecommunications
+- Software Defined Networking
+- Orchestration
+- Aerospace
+- Defense
+- Connectivity
+- gRPC
+- Protocol Buffers
+- Telemetry
+- Optical Communications
+apis:
+- aid: aalyria:spacetime-nbi
+  name: Spacetime Northbound Interface (NBI)
+  description: 'The Northbound Interface allows humans or applications to define and
+    orchestrate a Spacetime network. It carries the Model API (NMTS entities and relationships
+    describing platforms, antennas, interfaces and their time-dynamic position and
+    orientation), the Provisioning API (traffic-engineering policies, links, downtimes,
+    protection and disjoint association groups, geographic regions), the Solution
+    API (computed beams and candidate paths), the Simulation API (scenarios and analyses),
+    Permissions and Audit Logs. It is a gRPC API defined in Protocol Buffers and served
+    per customer instance over subdomain-resolved endpoints such as model-v1.$DOMAIN.'
+  humanURL: https://docs.spacetime.aalyria.com/api/nbi/
+  baseURL: https://nbi.example.spacetime.aalyria.com
+  x-endpoint-pattern: <service>-<version>.$DOMAIN (subdomain endpoint resolution; per-customer
+    Spacetime instance domain issued by Aalyria)
+  tags:
+  - Orchestration
+  - Networking
+  - Provisioning
+  - Modeling
+  - gRPC
+  properties:
+  - type: Protobuf
+    url: grpc/api/model/v1/model.proto
+  - type: Documentation
+    url: https://docs.spacetime.aalyria.com/api/nbi/
+  - type: GettingStarted
+    url: https://docs.spacetime.aalyria.com/api/nbi/build-your-first-scenario/
+- aid: aalyria:spacetime-sbi
+  name: Spacetime Southbound Interface (SBI / CDPI)
+  description: 'The Southbound Interface, also called the Control to Data-plane Interface
+    (CDPI), is the collection of gRPC services through which devices participating
+    in a Spacetime network communicate with the controller. The Scheduling service
+    is a bidirectional stream over which an agent receives schedule updates — steering
+    antenna beams to establish new links, configuring RF parameters, applying flow
+    and radio control — and returns responses; the Telemetry service pushes metrics
+    and observations back to Spacetime. A reference Go implementation of an SBI agent
+    ships in the same repository.'
+  humanURL: https://docs.spacetime.aalyria.com/api/sbi/
+  baseURL: https://nbi.example.spacetime.aalyria.com
+  x-endpoint-pattern: <service>-<version>.$DOMAIN (subdomain endpoint resolution; per-customer
+    Spacetime instance domain issued by Aalyria)
+  tags:
+  - Telemetry
+  - Streaming
+  - Networking
+  - Control Plane
+  - gRPC
+  properties:
+  - type: Protobuf
+    url: grpc/api/scheduling/v1alpha/scheduling.proto
+  - type: Documentation
+    url: https://docs.spacetime.aalyria.com/api/sbi/
+- aid: aalyria:spacetime-federation
+  name: Spacetime Federation API (East-West Interface)
+  description: 'The Federation API, or East-West Interface, allows peer networks to
+    request and to supply network resources and interconnections between partners''
+    networks. It carries the Interconnect service, through which operators negotiate
+    and manage interconnection points and service requests between distinct networks,
+    and the Transponder service, through which capacity on a transponded payload is
+    advertised, requested and scheduled. This facilitates dynamic, real-time inter-network
+    connections so operators can supplement gaps in coverage or advertise unused capacity.'
+  humanURL: https://docs.spacetime.aalyria.com/api/federation/
+  baseURL: https://nbi.example.spacetime.aalyria.com
+  x-endpoint-pattern: <service>-<version>.$DOMAIN (subdomain endpoint resolution; per-customer
+    Spacetime instance domain issued by Aalyria)
+  tags:
+  - Federation
+  - Interconnection
+  - Satellite
+  - Capacity
+  - gRPC
+  properties:
+  - type: Protobuf
+    url: grpc/api/federation/interconnect/v1alpha/interconnect.proto
+  - type: Documentation
+    url: https://docs.spacetime.aalyria.com/api/federation/
+- aid: aalyria:spacetime-status
+  name: Spacetime Status API
+  description: 'The Status API is a small operational gRPC service exposed by every
+    Spacetime instance. GetVersion returns the semantic version of the running Spacetime
+    build, and GetMetrics returns instance insight metrics encoded in the standard
+    OpenTelemetry metrics protobuf format — platform-type counts and inbound/outbound
+    scheduling message counts. It is reachable through the nbictl command line tool
+    as status-v1 and is the surface used to confirm connectivity and credentials against
+    a new deployment.'
+  humanURL: https://docs.spacetime.aalyria.com/api/
+  baseURL: https://nbi.example.spacetime.aalyria.com
+  x-endpoint-pattern: status-v1.$DOMAIN
+  tags:
+  - Status
+  - Metrics
+  - OpenTelemetry
+  - Observability
+  - gRPC
+  properties:
+  - type: Protobuf
+    url: grpc/api/status/v1/status.proto
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +143,59 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/aalyria_stock/
+  url: https://www.aalyria.com/
+- type: DeveloperPortal
+  url: https://docs.spacetime.aalyria.com/
+- type: Documentation
+  url: https://docs.spacetime.aalyria.com/api/
+- type: APIReference
+  url: https://docs.spacetime.aalyria.com/api/
+- type: GettingStarted
+  url: https://docs.spacetime.aalyria.com/api/nbi/build-your-first-scenario/
+- type: Authentication
+  url: authentication/aalyria-authentication.yml
+- type: GitHubOrganization
+  url: https://github.com/aalyria
+- type: SourceCode
+  url: https://github.com/aalyria/api
+- type: TermsOfService
+  url: https://www.aalyria.com/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://www.aalyria.com/privacy-policy
+- type: Support
+  url: https://github.com/aalyria/api/issues
+- type: Protobuf
+  url: grpc/aalyria-grpc-index.yml
+- type: Packages
+  url: packages/aalyria-packages.yml
+- type: SDKs
+  url: packages/aalyria-packages.yml
+- type: CLI
+  url: cli/aalyria-cli.yml
+- type: ChangeLog
+  url: changelog/aalyria-changelog.yml
+- type: Lifecycle
+  url: lifecycle/aalyria-lifecycle.yml
+- type: Deprecation
+  url: https://docs.spacetime.aalyria.com/dev-guides/api-stability-levels/
+- type: Conventions
+  url: conventions/aalyria-conventions.yml
+- type: Conformance
+  url: conformance/aalyria-conformance.yml
+- type: ErrorCatalog
+  url: errors/aalyria-problem-types.yml
+- type: DataModel
+  url: data-model/aalyria-data-model.yml
+- type: LLMsTxt
+  url: llms/aalyria-llms.txt
+- type: MCPServer
+  url: mcp/aalyria-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/aalyria-domain-security.yml
+x-enrichment:
+  date: '2026-08-02'
+  status: enriched
+  artifacts_added: 64
+  pass: local-v1

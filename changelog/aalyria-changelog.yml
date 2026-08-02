@@ -1,0 +1,113 @@
+generated: '2026-08-02'
+method: searched
+source: https://github.com/aalyria/api/releases
+scheme: 'calendar-derived semantic versioning: v<major>.<minor>.<build-epoch>+<commit-sha>'
+scheme_docs: https://docs.spacetime.aalyria.com/dev-guides/semver/
+current_version: v24.3.1785277991+eb1e14a
+current_version_date: '2026-07-28'
+release_cadence: roughly weekly; 15+ tagged releases between 2026-04 and 2026-07
+note: Aalyria does not publish a prose changelog. The dated release feed on the Apache-2.0 aalyria/api
+  repository is the authoritative record of API changes; release bodies are GitHub auto-generated "Full
+  Changelog" compare links rather than curated highlights, so per-release breaking/additive classification
+  is not published and is recorded as null rather than inferred.
+entries:
+- version: v24.3.1785277991+eb1e14a
+  date: '2026-07-28'
+  url: https://github.com/aalyria/api/releases/tag/v24.3.1785277991%2Beb1e14a
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v24.0.1784850565+80399ea
+  date: '2026-07-24'
+  url: https://github.com/aalyria/api/releases/tag/v24.0.1784850565%2B80399ea
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v24.0.1784844416+561465e
+  date: '2026-07-23'
+  url: https://github.com/aalyria/api/releases/tag/v24.0.1784844416%2B561465e
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v24.2.1784669443+ab58505
+  date: '2026-07-21'
+  url: https://github.com/aalyria/api/releases/tag/v24.2.1784669443%2Bab58505
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v23.4.1782839556+614c2a6
+  date: '2026-06-30'
+  url: https://github.com/aalyria/api/releases/tag/v23.4.1782839556%2B614c2a6
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v23.0.1782842445+3167504
+  date: '2026-07-02'
+  url: https://github.com/aalyria/api/releases/tag/v23.0.1782842445%2B3167504
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v23.3.1782236245+49a708d
+  date: '2026-06-23'
+  url: https://github.com/aalyria/api/releases/tag/v23.3.1782236245%2B49a708d
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v23.2.1781627306+a26cbce
+  date: '2026-06-16'
+  url: https://github.com/aalyria/api/releases/tag/v23.2.1781627306%2Ba26cbce
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v23.1.1781627322+0d875a7
+  date: '2026-06-16'
+  url: https://github.com/aalyria/api/releases/tag/v23.1.1781627322%2B0d875a7
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v23.0.1780465186+ce5e188
+  date: '2026-06-03'
+  url: https://github.com/aalyria/api/releases/tag/v23.0.1780465186%2Bce5e188
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v22.3.1779900868+a4acf98
+  date: '2026-05-27'
+  url: https://github.com/aalyria/api/releases/tag/v22.3.1779900868%2Ba4acf98
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v22.2.1779222191+fa49705
+  date: '2026-05-19'
+  url: https://github.com/aalyria/api/releases/tag/v22.2.1779222191%2Bfa49705
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v22.1.1779221368+7481aa2
+  date: '2026-05-19'
+  url: https://github.com/aalyria/api/releases/tag/v22.1.1779221368%2B7481aa2
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v22.0.1777999036+3def73e
+  date: '2026-05-05'
+  url: https://github.com/aalyria/api/releases/tag/v22.0.1777999036%2B3def73e
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v21.2.1777442634+0f1c04c
+  date: '2026-04-29'
+  url: https://github.com/aalyria/api/releases/tag/v21.2.1777442634%2B0f1c04c
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v21.1.1776804538+cbff1cb
+  date: '2026-04-21'
+  url: https://github.com/aalyria/api/releases/tag/v21.1.1776804538%2Bcbff1cb
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v21.0.1776189356+7391687
+  date: '2026-04-14'
+  url: https://github.com/aalyria/api/releases/tag/v21.0.1776189356%2B7391687
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v20.10.1775586932+e779e26
+  date: '2026-04-07'
+  url: https://github.com/aalyria/api/releases/tag/v20.10.1775586932%2Be779e26
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v20.9.1775065136+d027ff5
+  date: '2026-04-01'
+  url: https://github.com/aalyria/api/releases/tag/v20.9.1775065136%2Bd027ff5
+  breaking: null
+  notes: auto-generated (full changelog link only)
+- version: v20.8.1774371126+799a419
+  date: '2026-03-24'
+  url: https://github.com/aalyria/api/releases/tag/v20.8.1774371126%2B799a419
+  breaking: null
+  notes: auto-generated (full changelog link only)

@@ -1,0 +1,86 @@
+generated: '2026-08-02'
+method: searched
+source: https://docs.spacetime.aalyria.com/api/authentication/
+docs: https://docs.spacetime.aalyria.com/api/authentication/
+note: 'Spacetime publishes no OpenAPI, so this profile is not derived from securitySchemes.
+  It is transcribed from the published authentication guide and from the nbictl
+  configuration surface in github.com/aalyria/api (tools/nbictl).'
+summary:
+  types:
+  - jwt-bearer
+  - openIdConnect
+  transport: gRPC over TLS (HTTP/2); bearer token in the Authorization metadata header
+  oauth2_flows: []
+  api_key_in: []
+schemes:
+- name: SelfSignedJWT
+  type: jwt-bearer
+  default: true
+  description: 'The primary Spacetime authentication strategy. The client generates
+    an RSA keypair locally (via `nbictl generate-keys` or OpenSSL), submits the self-signed
+    x509 certificate carrying the public key to Aalyria, and receives a USER_ID, KEY_ID
+    and DOMAIN. Each call is authenticated with a short-lived JWT the client signs
+    itself with the private key and passes as a bearer token in the Authorization
+    header.'
+  algorithm: RS256
+  header_claims:
+    alg: RS256
+    kid: $KEY_ID
+    typ: JWT
+  payload_claims:
+    iss: $USER_ID
+    sub: $USER_ID
+    aud: https://${DOMAIN}/${GRPC_SERVICE}/${GRPC_METHOD}
+    exp: UNIX timestamp
+    iat: UNIX timestamp
+  audience_note: 'The audience is per-RPC — it binds the token to a single gRPC service
+    and method, e.g. https://version.$DOMAIN/aalyria.spacetime.api.version.v1.VersionService/GetVersion'
+  credential_issuance: 'Out of band. Public certificate (.crt) is shared with Aalyria;
+    the private key (.key) never leaves the client.'
+  source: https://docs.spacetime.aalyria.com/api/authentication/
+- name: OIDC
+  type: openIdConnect
+  default: false
+  description: 'nbictl exposes an `oidc` auth strategy alongside `jwt`, configured
+    with a client id and a token endpoint URL, for Spacetime deployments fronted by
+    an OpenID Connect provider. The issuer/token endpoint is deployment-specific and
+    is not published.'
+  parameters:
+  - --auth_strategy=oidc
+  - --client_id
+  - --token_url
+  source: https://github.com/aalyria/api/blob/main/tools/nbictl/README.md
+- name: None
+  type: none
+  default: false
+  description: '`--auth_strategy=none` sends no credentials. Intended for local or
+    test Spacetime instances only.'
+  source: https://github.com/aalyria/api/blob/main/tools/nbictl/README.md
+authorization:
+  model: 'Server-side authorization is a first-class API of its own. The Permissions
+    service (aalyria.spacetime.api.permissions.v1alpha) exposes CheckPermission, CheckPermissions,
+    UpdateAuthorizationConfig and ListAuthorizationConfigRevisions, so the authorization
+    configuration is versioned and queryable rather than expressed as OAuth scopes.'
+  source: grpc/api/permissions/v1alpha/permissions.proto
+  oauth_scopes: false
+  scopes_note: 'No OAuth2 authorization server and no scope vocabulary are published,
+    so scopes/ is intentionally not emitted for this provider.'
+audit:
+  service: aalyria.spacetime.api.audit.v1alpha.AuditLogService
+  source: grpc/api/audit/v1alpha/audit_logs.proto
+transport_security:
+  values:
+  - system_cert_pool
+  - insecure
+  default: system_cert_pool
+  transports:
+  - tcp
+  - quic
+  source: https://github.com/aalyria/api/blob/main/tools/nbictl/README.md
+x-evidence:
+- fetched: '2026-08-02'
+  url: https://docs.spacetime.aalyria.com/api/authentication/
+  http_status: 200
+- fetched: '2026-08-02'
+  url: https://github.com/aalyria/api
+  http_status: 200

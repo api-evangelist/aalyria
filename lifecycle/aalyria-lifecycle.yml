@@ -1,0 +1,123 @@
+generated: '2026-08-02'
+method: searched
+source: https://docs.spacetime.aalyria.com/dev-guides/
+versioning:
+  scheme: 'Semantic Versioning 2.0.0 for releases, plus a stability level encoded in
+    the protobuf package path (e.g. api/model/v1, api/provisioning/v1alpha).'
+  docs: https://docs.spacetime.aalyria.com/dev-guides/semver/
+  current: v24.3.1785277991+eb1e14a
+  current_date: '2026-07-28'
+  release_feed: https://github.com/aalyria/api/releases
+  package_versions:
+  - package: aalyria.spacetime.api.model.v1
+    level: stable
+  - package: aalyria.spacetime.api.model.v0
+    level: alpha
+    note: superseded by model.v1
+  - package: aalyria.spacetime.api.status.v1
+    level: stable
+  - package: aalyria.spacetime.api.provisioning.v1alpha
+    level: alpha
+  - package: aalyria.spacetime.api.scheduling.v1alpha
+    level: alpha
+  - package: aalyria.spacetime.api.telemetry.v1alpha
+    level: alpha
+  - package: aalyria.spacetime.api.solution.v1alpha
+    level: alpha
+  - package: aalyria.spacetime.api.simulation.v1alpha
+    level: alpha
+  - package: aalyria.spacetime.api.permissions.v1alpha
+    level: alpha
+  - package: aalyria.spacetime.api.audit.v1alpha
+    level: alpha
+  - package: aalyria.spacetime.api.nbi.v1alpha.resources
+    level: alpha
+  - package: aalyria.spacetime.api.federation.interconnect.v1alpha
+    level: alpha
+  - package: aalyria.spacetime.api.federation.transponder.v1alpha
+    level: alpha
+stability_levels:
+  docs: https://docs.spacetime.aalyria.com/dev-guides/api-stability-levels/
+  levels:
+  - id: alpha
+    purpose: Previewing APIs, sharing progress and gathering feedback.
+    breaking_changes: allowed without a version bump
+    deprecation_policy: none
+    version_form: v1alpha, 1.0.0-alpha.1
+  - id: beta
+    purpose: API testing with a broader set of partners.
+    breaking_changes: permitted only if necessary, with a deprecation notice
+    deprecation_policy: minimum 6 months of support after deprecation
+    version_form: v1beta, 1.0.0-beta.1
+  - id: stable
+    purpose: Production-ready and fully supported.
+    breaking_changes: 'no breaking changes without incrementing the major version'
+    deprecation_policy: support continues until migration is complete or by provider-customer
+      agreement; bugfixes and security patches expected
+    version_form: v1, 1.0.0
+deprecation:
+  policy_url: https://docs.spacetime.aalyria.com/dev-guides/api-stability-levels/
+  documented: true
+  mechanism: 'Protobuf `deprecated` field/method annotations signal planned removals;
+    a deprecated beta surface is supported for at least 6 months.'
+  sunset_header: false
+  sunset_header_note: 'Not applicable — Spacetime is gRPC/protobuf, not HTTP+JSON,
+    so RFC 8594 Sunset/Deprecation response headers are not used.'
+backward_compatibility:
+  docs: https://docs.spacetime.aalyria.com/dev-guides/backward-compatibility/
+  dimensions:
+  - id: source
+    statement: 'Code written against a previous version of an SDK, Library, or Protobuf
+      definition must compile and run successfully against a newer version.'
+  - id: wire
+    statement: 'Code written against a previous version must be able to communicate
+      correctly with a newer server.'
+  - id: semantic
+    statement: Newer behavior must align with operator expectations set by previous
+      versions.
+  safe_changes:
+  - adding new fields
+  - adding new enum values
+  - adding new RPC methods
+  - adding new data models
+  - applying deprecation annotations to signal planned removals
+  breaking_changes:
+    source_incompatible:
+    - renaming fields, enum values, data models or packages
+    - removing a field (while reserving its tag number)
+    wire_incompatible:
+    - changing a field type
+    - changing a tag number
+    - restructuring oneof groupings
+governance:
+  url: https://github.com/aalyria/api/blob/main/GOVERNANCE.md
+  contact: spacetime-maintainers@aalyria.com
+  cla_required: true
+  summary: 'API changes are proposed by email to the Spacetime maintainers first; major
+    changes require additional design discussion. Contributions are licensed Apache
+    2.0 and require a CLA on first PR.'
+sla:
+  published: false
+  note: No public SLA or uptime target was found; Spacetime is deployed per customer
+    instance under commercial agreement.
+status_page:
+  published: false
+  note: 'No public status page was found (status.aalyria.com does not resolve, probed
+    2026-08-02). Per-instance health is instead exposed programmatically through the
+    Status API (GetVersion / GetMetrics), which returns OpenTelemetry-format metrics.'
+  programmatic_alternative: grpc/api/status/v1/status.proto
+deprecated_operations:
+- ref: grpc/api/model/v0/model.proto#Model
+  reason: 'model.v0 is superseded by model.v1; the NBI is documented as actively migrating
+    to the NMTS Entity/Relationship model managed via the Model API.'
+x-evidence:
+- fetched: '2026-08-02'
+  url: https://docs.spacetime.aalyria.com/dev-guides/api-stability-levels/
+  http_status: 200
+- fetched: '2026-08-02'
+  url: https://docs.spacetime.aalyria.com/dev-guides/backward-compatibility/
+  http_status: 200
+- fetched: '2026-08-02'
+  url: https://status.aalyria.com/
+  http_status: 0
+  result: NXDOMAIN

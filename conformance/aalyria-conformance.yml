@@ -1,0 +1,95 @@
+generated: '2026-08-02'
+method: derived
+source: grpc/ (45 proto3 files) + https://docs.spacetime.aalyria.com/dev-guides/
+note: 'Derived from the published Apache-2.0 protobuf definitions and the developer
+  guides. Aalyria publishes no compliance/certification program (no trust center,
+  no SOC 2 / ISO 27001 claim was found on 2026-08-02), so no Compliance pointer is
+  emitted — only the technical standards the contract demonstrably implements.'
+standards:
+- id: grpc
+  conforms: true
+  evidence: 13 gRPC services / 182 RPCs defined across api/**; documented at https://docs.spacetime.aalyria.com/dev-guides/grpc/
+- id: protobuf-proto3
+  conforms: true
+  evidence: every definition file declares `syntax = "proto3"`; documented at https://docs.spacetime.aalyria.com/dev-guides/protobuf/
+- id: semver-2.0.0
+  conforms: true
+  evidence: 'GetVersionResponse.build_version documented as "Uses Semantic Versioning
+    2.0.0 format. See: https://semver.org/"; policy at https://docs.spacetime.aalyria.com/dev-guides/semver/'
+- id: rfc7519-jwt
+  conforms: true
+  evidence: authentication uses self-signed JWTs with iss/sub/aud/exp/iat claims and
+    a kid header
+- id: rfc7518-rs256
+  conforms: true
+  evidence: JWTs are signed RS256 (RSASSA-PKCS1-v1_5 using SHA-256)
+- id: x509
+  conforms: true
+  evidence: credential enrollment is a self-signed x509 certificate carrying the client's
+    RSA public key
+- id: oauth2
+  conforms: false
+  evidence: no OAuth2 authorization server, no token endpoint and no scope vocabulary
+    published
+- id: oidc
+  conforms: partial
+  evidence: nbictl supports `--auth_strategy=oidc` with `--client_id` and `--token_url`
+    for deployments fronted by an OIDC provider, but Aalyria publishes no issuer or
+    discovery document
+- id: opentelemetry
+  conforms: true
+  evidence: StatusService.GetMetrics returns opentelemetry.proto.metrics.v1 Gauge and
+    Sum messages
+- id: google-rpc-status
+  conforms: true
+  evidence: google.rpc.Status and google.rpc.Code are used for RPC errors and for embedded
+    enactment outcomes in api/common/control.proto and api/nbi/v1alpha/resources/intent.proto
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: not applicable — gRPC status model is used instead of HTTP problem+json
+- id: aip-resource-oriented-design
+  conforms: partial
+  evidence: Get/List/Create/Update/Delete/Batch*/Purge* naming, google.protobuf.FieldMask
+    update_mask, and page_size/page_token/next_page_token on the Permissions and Audit
+    list RPCs; pagination is not applied consistently across all List RPCs
+- id: nmts
+  conforms: true
+  name: Network Model for Temporospatial Systems (Outernet Council)
+  evidence: the Model API v1 operates on nmts.v1.Entity and relationships; scheduling.proto
+    imports nmts/v1/proto/types/geophys/{coordinates,geodesy}.proto
+  url: https://outernetcouncil.org/
+- id: outernet-federation
+  conforms: true
+  name: Outernet Council federation interfaces
+  evidence: 'the Federation (East-West) API is not in Aalyria''s own namespace — interconnect.proto
+    declares `package outernet.federation.interconnect.v1alpha` and transponder.proto
+    declares `package outernet.federation.transponder.v1alpha`, i.e. Aalyria ships
+    a community-namespaced inter-operator interface rather than a proprietary one'
+  url: https://outernetcouncil.org/
+- id: ietf-segment-routing-te
+  conforms: true
+  evidence: the Provisioning and Solution APIs are modelled on SR-TE policies — P2pSrTePolicy,
+    P2mpSrTePolicy and candidate paths
+- id: ieee-802
+  conforms: true
+  evidence: api/types/ethernet.proto encodes EtherType values against the IANA IEEE
+    802 Numbers registry (802.1Q C-TAG, 802.1ad S-TAG/QinQ, 802.1Q PBB) and references
+    RFC 5332
+- id: 3gpp
+  conforms: partial
+  evidence: api/common/threegpp.proto carries 3GPP-derived structures for the 5G non-terrestrial-network
+    use case
+- id: quic
+  conforms: true
+  evidence: nbictl `--transport` accepts `quic` alongside `tcp`
+- id: apache-2.0
+  conforms: true
+  evidence: the entire API definition set is published under Apache License 2.0 with
+    a CLA-based contribution process
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: false
+  probed: '2026-08-02'
+  note: probe-security-programs.py returned vdp=none trust=none; no SOC 2, ISO 27001,
+    FedRAMP or CMMC claim was found on the public site.

@@ -1,0 +1,275 @@
+generated: '2026-08-02'
+method: derived
+source: grpc/ (45 proto3 files; message definitions and cross-package imports)
+note: 'Derived from the published protobuf definitions. Spacetime has no OpenAPI, so
+  relationships were read from proto imports, message field types and the explicit
+  Relationship model of the Model API rather than from JSON Schema $ref links. Only
+  entities that exist as named messages in the shipped protos are listed.'
+core_concept: 'Spacetime is a temporospatial digital twin. The Model API stores a graph
+  of NMTS Entities and typed Relationships describing physical and logical assets and
+  their time-dynamic motion; the Provisioning API layers intent (traffic-engineering
+  policies, links, downtimes, constraint groups) on top of that graph; the Solution
+  API exposes what the solver computed (beams, candidate paths); the SBI enacts it
+  on devices and streams telemetry back.'
+domains:
+- id: model
+  package: aalyria.spacetime.api.model.v1
+  description: The NMTS entity/relationship graph — the digital twin itself.
+  source: grpc/api/model/v1/model.proto
+- id: nbi-resources
+  package: aalyria.spacetime.api.nbi.v1alpha.resources
+  description: The legacy NBI resource vocabulary (network elements, links, intents,
+    service requests, coverage, antenna patterns, interference constraints), being
+    migrated to the NMTS model.
+  source: grpc/api/nbi/v1alpha/resources/
+- id: provisioning
+  package: aalyria.spacetime.api.provisioning.v1alpha
+  description: Provisioned intent — SR-TE policies and their candidate paths, links,
+    downtimes, constraint groups, geographic regions.
+  source: grpc/api/provisioning/v1alpha/provisioning.proto
+- id: solution
+  package: aalyria.spacetime.api.solution.v1alpha
+  description: Solver output — the beams and candidate paths Spacetime computed.
+  source: grpc/api/solution/v1alpha/solution.proto
+- id: simulation
+  package: aalyria.spacetime.api.simulation.v1alpha
+  description: Scenarios, simulations and analyses over a copy of the model.
+  source: grpc/api/simulation/v1alpha/simulation.proto
+- id: control
+  package: aalyria.spacetime.api.common
+  description: The shared control-plane vocabulary the SBI enacts — beam, radio and
+    flow control updates, channels, wireless transceiver models, coordinates and time.
+  source: grpc/api/common/
+- id: federation
+  package: aalyria.spacetime.api.federation
+  description: Cross-operator interconnection and transponded-capacity resources.
+  source: grpc/api/federation/
+- id: governance
+  package: aalyria.spacetime.api.permissions.v1alpha / audit.v1alpha
+  description: Versioned authorization configuration and the audit log.
+  source: grpc/api/permissions/v1alpha/permissions.proto
+entities:
+- name: Entity
+  domain: model
+  external_type: nmts.v1.Entity
+  description: The generic NMTS node in the digital-twin graph. Concrete kinds (platform,
+    antenna, interface, transceiver) are expressed as NMTS entity types rather than
+    distinct Spacetime messages.
+  operations:
+  - CreateEntity
+  - UpdateEntity
+  - DeleteEntity
+  - GetEntity
+  - ListEntities
+- name: Relationship
+  domain: model
+  description: A typed directed edge between two NMTS Entities.
+  operations:
+  - CreateRelationship
+  - DeleteRelationship
+  - ListRelationships
+- name: Fragment
+  domain: model
+  description: A batch of entities and relationships applied atomically.
+  operations:
+  - UpsertFragment
+- name: NetworkNode
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/network_element.proto
+- name: NetworkInterface
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/network_element.proto
+- name: SdnAgent
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/network_element.proto
+- name: WiredDevice
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/network_element.proto
+- name: NetworkLink
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/network_link.proto
+- name: Radio
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/network_link.proto
+- name: Intent
+  domain: nbi-resources
+  variants:
+  - LinkIntent
+  - RadioIntent
+  - PathIntent
+  source: grpc/api/nbi/v1alpha/resources/intent.proto
+- name: ServiceRequest
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/service_request.proto
+- name: AntennaPattern
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/antenna_pattern.proto
+- name: TransceiverSet
+  domain: nbi-resources
+  siblings:
+  - PlatformSet
+  - StationSet
+  - StationSubset
+  source: grpc/api/nbi/v1alpha/resources/coverage.proto
+- name: DevicesInRegion
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/devices_in_region.proto
+- name: InterferenceConstraint
+  domain: nbi-resources
+  siblings:
+  - PfdConstraint
+  - PsdConstraint
+  source: grpc/api/nbi/v1alpha/resources/wireless_interference.proto
+- name: AccessInterval
+  domain: nbi-resources
+  source: grpc/api/nbi/v1alpha/resources/wireless_evaluation.proto
+- name: P2pSrTePolicy
+  domain: provisioning
+  operations:
+  - GetP2pSrTePolicy
+  - ListP2pSrTePolicies
+  - CreateP2pSrTePolicy
+  - UpdateP2pSrTePolicy
+  - DeleteP2pSrTePolicy
+- name: P2pSrTePolicyCandidatePath
+  domain: provisioning
+- name: P2mpSrTePolicy
+  domain: provisioning
+- name: P2mpSrTePolicyCandidatePath
+  domain: provisioning
+- name: Link
+  domain: provisioning
+- name: Downtime
+  domain: provisioning
+- name: ProtectionAssociationGroup
+  domain: provisioning
+- name: DisjointAssociationGroup
+  domain: provisioning
+- name: GeographicRegion
+  domain: provisioning
+- name: Beam
+  domain: solution
+  operations:
+  - GetBeam
+  - QueryBeams
+  - CreateBeam
+  - UpdateBeam
+  - DeleteBeam
+- name: Scenario
+  domain: simulation
+- name: Simulation
+  domain: simulation
+- name: Analysis
+  domain: simulation
+- name: AuthorizationConfig
+  domain: governance
+  versioned: true
+  operations:
+  - UpdateAuthorizationConfig
+  - ListAuthorizationConfigRevisions
+- name: AuditMessage
+  domain: governance
+  operations:
+  - ListAuditMessages
+relationships:
+- from: Entity
+  to: Entity
+  kind: has_many
+  via: Relationship
+  note: The Model API's explicit typed edge; the digital twin is a graph, not a tree.
+- from: Fragment
+  to: Entity
+  kind: has_many
+  via: UpsertFragmentRequest
+- from: P2pSrTePolicy
+  to: P2pSrTePolicyCandidatePath
+  kind: has_many
+  via: candidate path parent policy id
+- from: P2mpSrTePolicy
+  to: P2mpSrTePolicyCandidatePath
+  kind: has_many
+  via: candidate path parent policy id
+- from: ProtectionAssociationGroup
+  to: P2pSrTePolicy
+  kind: has_many
+  via: subjects_filter
+- from: DisjointAssociationGroup
+  to: P2pSrTePolicy
+  kind: has_many
+  via: subjects_filter
+- from: Downtime
+  to: Entity
+  kind: belongs_to
+  via: target platform / element reference
+- from: NetworkNode
+  to: NetworkInterface
+  kind: has_many
+- from: NetworkNode
+  to: SdnAgent
+  kind: has_one
+- from: NetworkLink
+  to: NetworkInterface
+  kind: belongs_to
+  via: source and destination interface ids
+- from: Intent
+  to: ServiceRequest
+  kind: belongs_to
+  via: service_request_id
+- from: Intent
+  to: LinkIntent
+  kind: belongs_to
+  via: link_request_id
+- from: Beam
+  to: Entity
+  kind: belongs_to
+  via: transmitting/receiving transceiver reference
+- from: Scenario
+  to: Entity
+  kind: has_many
+  via: NetworkModelEntity within the scenario
+- from: Simulation
+  to: Scenario
+  kind: belongs_to
+- from: Analysis
+  to: Simulation
+  kind: belongs_to
+- from: ControlPlaneUpdate
+  to: SdnAgent
+  kind: belongs_to
+  via: Scheduling.ReceiveRequests stream
+shared_vocabulary:
+- file: grpc/api/common/coordinates.proto
+  role: geodetic and inertial coordinate frames
+- file: grpc/api/common/time.proto
+  role: instants and intervals for time-dynamic state
+- file: grpc/api/common/platform.proto
+  role: platform motion models and orientation
+- file: grpc/api/common/platform_antenna.proto
+  role: antenna mounting and pointing
+- file: grpc/api/common/wireless.proto
+  role: wireless link budget primitives
+- file: grpc/api/common/wireless_transceiver.proto
+  role: transmitter/receiver models
+- file: grpc/api/common/wireless_modcod.proto
+  role: modulation and coding schemes vs signal quality
+- file: grpc/api/common/channel.proto
+  role: RF channel definitions
+- file: grpc/api/common/control.proto
+  role: control-plane update envelope with embedded enactment status
+- file: grpc/api/types/ethernet.proto
+  role: EtherType values from the IANA IEEE 802 registry
+- file: grpc/api/types/ietf.proto
+  role: IETF-derived network types
+- file: grpc/api/common/threegpp.proto
+  role: 3GPP structures for the 5G non-terrestrial-network case
+external_models:
+- name: NMTS (Network Model for Temporospatial Systems)
+  owner: Outernet Council
+  url: https://outernetcouncil.org/
+  role: The entity/relationship data model the Spacetime Model API v1 is built on;
+    imported as nmts.v1.* in model.proto and scheduling.proto.
+counts:
+  proto_files: 45
+  services: 13
+  rpcs: 182
+  messages: 512

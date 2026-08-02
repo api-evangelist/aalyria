@@ -1,0 +1,161 @@
+generated: '2026-08-02'
+method: searched
+source: https://github.com/aalyria/api/blob/main/tools/nbictl/README.md
+docs: https://docs.spacetime.aalyria.com/api/nbictl/index.html
+name: nbictl
+tagline: Interact with the Spacetime APIs from the command line.
+license: Apache-2.0
+repository: https://github.com/aalyria/api/tree/main/tools/nbictl
+install:
+- method: release-binary
+  description: Download the precompiled binary for your OS/architecture from the Aalyria
+    API releases page, unzip it, and run it from a terminal.
+  url: https://github.com/aalyria/api/releases
+- method: bazel
+  description: Build from source in the aalyria/api repository with the Bazel build
+    system.
+  url: https://docs.spacetime.aalyria.com/dev-guides/bazel/
+synopsis: nbictl [--profile=value] [--context=value] [--config_dir=value] [--help]
+  [--version] <command> [COMMAND OPTIONS] [ARGUMENTS...]
+global_options:
+- --profile
+- --context
+- --config_dir
+- --help
+- --version
+commands:
+- name: generate-keys
+  description: Generate RSA keys to use for authentication with the Spacetime APIs.
+    The self-signed x509 certificate (.crt) is shared with Aalyria to obtain USER_ID
+    and KEY_ID; the private key never leaves the client.
+  options:
+  - --dir
+  - --org
+  - --country
+  - --state
+  - --location
+- name: generate-auth-token
+  description: Generate a self-signed JWT token for API authentication.
+  options:
+  - --audience
+  - --expiration
+- name: config
+  description: Provides subcommands for managing nbictl configuration.
+  subcommands:
+  - name: list-profiles
+    description: List all configuration profiles (ignores any --profile flag).
+  - name: describe
+    description: Describe a configuration profile.
+  - name: set
+    description: Sets or updates a configuration profile's settings.
+    options:
+    - --url
+    - --user_id
+    - --key_id
+    - --priv_key
+    - --auth_strategy
+    - --client_id
+    - --token_url
+    - --endpoint_config
+    - --default_url
+    - --model_url
+    - --provisioning_url
+    - --status_url
+    - --transport
+    - --transport_security
+- name: model-v1
+  description: Subcommands for Model API v1, to manage the model elements comprising
+    the digital twin.
+  api: grpc/api/model/v1/model.proto
+  subcommands:
+  - name: create-entity
+    rpc: CreateEntity
+  - name: update-entity
+    rpc: UpdateEntity
+  - name: delete-entity
+    rpc: DeleteEntity
+  - name: get-entity
+    rpc: GetEntity
+  - name: create-relationship
+    rpc: CreateRelationship
+  - name: delete-relationship
+    rpc: DeleteRelationship
+  - name: upsert-fragment
+    rpc: UpsertFragment
+  - name: list-entities
+    rpc: ListEntities
+  - name: list-relationships
+    rpc: ListRelationships
+  - name: sync, rsync
+    description: Sync all model entities and relationships from file and directory
+      arguments.
+  - name: delete-all, clear
+    description: Delete all model entities and relationships from the remote instance.
+- name: provisioning-v1alpha
+  description: Subcommands for Provisioning API v1alpha, to manage the provisioned
+    resources within the digital twin.
+  api: grpc/api/provisioning/v1alpha/provisioning.proto
+  subcommands:
+  - name: sync, rsync
+    description: Sync all provisioning resources from file and directory arguments.
+    options:
+    - --delete
+    - --dry-run
+    - --recursive
+    - --max-concurrency
+    - --progress
+    - --format
+    - --verbose
+  - name: list
+    description: List all provisioning resources from remote.
+  - name: delete
+    description: Delete provisioning resources.
+  - name: delete-all, clear
+    description: Delete all provisioning resources from the remote instance.
+- name: status-v1
+  description: Subcommands for Status API v1.
+  api: grpc/api/status/v1/status.proto
+  subcommands:
+  - name: get-version
+    rpc: GetVersion
+    description: Retrieve the version of this Spacetime instance.
+  - name: get-metrics
+    rpc: GetMetrics
+    description: Retrieve the insight metrics of this Spacetime instance.
+- name: grpcurl
+  description: Provides curl-like equivalents for interacting with the Spacetime APIs.
+  options:
+  - --api
+  subcommands:
+  - name: describe
+    description: Show the descriptor for a fully-qualified symbol (service, enum or
+      message), or for all exposed services.
+  - name: list
+    description: List all methods of a service, or all exposed services.
+  - name: call, invoke
+    description: Invoke a fully-qualified method using the provided request body.
+    options:
+    - --format
+    - --request
+- name: help, h
+  description: Shows a list of commands or help for one command.
+key_flows:
+- name: First-run authentication
+  steps:
+  - nbictl generate-keys --org "<ORG>"
+  - Share the generated .crt with Aalyria; receive USER_ID, KEY_ID and DOMAIN.
+  - nbictl config set --url <DOMAIN> --user_id <USER_ID> --key_id <KEY_ID> --priv_key
+    <PATH>
+  - nbictl status-v1 get-version
+- name: Declarative model sync
+  steps:
+  - Author NMTS entities/relationships as .textproto files in a directory.
+  - nbictl model-v1 sync -r --dry-run <dir>
+  - nbictl model-v1 sync -r <dir>
+formats:
+  values:
+  - text
+  - json
+  - binary
+  default: text
+  note: 'protobuf message encoding for input and output; grpcurl call defaults to json.'

@@ -1,0 +1,94 @@
+generated: '2026-08-02'
+method: derived
+source: grpc/ (google.rpc.Status / google.rpc.Code usage across api/**)
+format: grpc-status
+rfc9457: false
+note: 'Spacetime is a gRPC API, so it has no HTTP problem+json envelope and no provider-published
+  error-code registry. Errors are carried two ways, both derived below from the published
+  protos: (1) standard gRPC status codes on the RPC itself, and (2) google.rpc.Status
+  values embedded inside domain messages to report the outcome of an asynchronously
+  enacted change. No canonical list of Spacetime-specific error reasons is published;
+  none has been invented here.'
+envelope:
+  rpc_level:
+    type: google.rpc.Status
+    fields:
+    - code
+    - message
+    - details
+    transport: gRPC trailers (grpc-status, grpc-message, grpc-status-details-bin)
+  embedded:
+    description: Asynchronous enactment outcomes are reported as data, not as RPC errors.
+    occurrences:
+    - message: aalyria.spacetime.api.common.ControlPlaneUpdate
+      fields:
+      - scheduled
+      - enactment_attempted
+      - unscheduled
+      - completed
+      type: google.rpc.Status
+      source: grpc/api/common/control.proto
+    - message: Intent
+      field: agent_failure_code
+      type: google.rpc.Code
+      source: grpc/api/nbi/v1alpha/resources/intent.proto
+    - message: ReceiveRequestsMessageToController.Response
+      field: status
+      type: google.rpc.Status
+      correlation: request_id
+      source: grpc/api/scheduling/v1alpha/scheduling.proto
+problems:
+- code: INVALID_ARGUMENT
+  grpc_code: 3
+  title: Malformed or invalid request message
+  remediation: Validate the request protobuf against the published .proto before retrying;
+    a retry with the same argument will fail again.
+  source: google.rpc.Code
+- code: NOT_FOUND
+  grpc_code: 5
+  title: Requested entity, relationship or provisioned resource does not exist
+  remediation: 'Confirm the resource id with the matching List/Query RPC (e.g. ListEntities,
+    ListP2pSrTePolicies).'
+  source: google.rpc.Code
+- code: ALREADY_EXISTS
+  grpc_code: 6
+  title: Entity or resource already exists
+  remediation: 'Use the Update RPC with an update_mask, or the declarative `nbictl
+    <api> sync` flow, rather than Create.'
+  source: google.rpc.Code
+- code: PERMISSION_DENIED
+  grpc_code: 7
+  title: Caller is not authorized for this operation
+  remediation: Check the caller's authorization with Permissions.CheckPermission /
+    CheckPermissions; the authorization config is versioned and inspectable via ListAuthorizationConfigRevisions.
+  source: grpc/api/permissions/v1alpha/permissions.proto
+- code: UNAUTHENTICATED
+  grpc_code: 16
+  title: Missing, expired or invalid credentials
+  remediation: 'Regenerate the self-signed JWT (nbictl generate-auth-token, default
+    validity 1h) and confirm the aud claim matches https://${DOMAIN}/${GRPC_SERVICE}/${GRPC_METHOD}
+    for the exact method being called — the audience is per-RPC.'
+  source: https://docs.spacetime.aalyria.com/api/authentication/
+- code: FAILED_PRECONDITION
+  grpc_code: 9
+  title: Request cannot be enacted in the current model state
+  remediation: 'Resolve the referenced dependency first (e.g. create the platform/interface
+    entity before the relationship or link that references it).'
+  source: google.rpc.Code
+- code: UNAVAILABLE
+  grpc_code: 14
+  title: Spacetime instance unreachable or the stream was dropped
+  remediation: 'Retry with backoff; the SBI Scheduling stream is long-lived and expected
+    to be re-established. Confirm reachability with StatusService.GetVersion.'
+  source: grpc/api/status/v1/status.proto
+- code: DEADLINE_EXCEEDED
+  grpc_code: 4
+  title: RPC deadline elapsed
+  remediation: 'Increase the deadline, or lower nbictl --max-concurrency (default 100)
+    on large sync operations.'
+  source: google.rpc.Code
+gaps:
+- No provider-published error reference or error-code registry was found in the docs
+  or the repository.
+- Spacetime-specific failure reasons carried in google.rpc.Status.details are not enumerated
+  publicly.

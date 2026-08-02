@@ -1,0 +1,176 @@
+generated: '2026-08-02'
+method: derived
+source: grpc/ (45 proto3 files, 13 services, 182 RPCs) + https://docs.spacetime.aalyria.com/dev-guides/
+note: 'Spacetime is a gRPC/protobuf API, not HTTP+JSON, so several conventions that
+  the catalog usually records as HTTP headers (idempotency keys, RFC 9457 problem
+  details, Link pagination) do not apply. What follows is what the published protos
+  and developer guides actually establish; absences are recorded as absences and not
+  substituted with HTTP equivalents.'
+protocol:
+  style: gRPC
+  idl: Protocol Buffers (proto3)
+  transports:
+  - tcp
+  - quic
+  transport_security:
+  - system_cert_pool
+  - insecure
+  wire_formats:
+  - text
+  - json
+  - binary
+  docs: https://docs.spacetime.aalyria.com/dev-guides/grpc/
+authentication:
+  style: bearer token in the Authorization gRPC metadata header
+  token: self-signed RS256 JWT, audience scoped per gRPC service and method
+  alternatives:
+  - oidc
+  - none
+  artifact: authentication/aalyria-authentication.yml
+endpoint_resolution:
+  strategies:
+  - subdomain
+  - single_domain
+  - custom
+  default: subdomain
+  pattern: <api>-<version>.$DOMAIN — e.g. model-v1.$DOMAIN, provisioning-v1alpha.$DOMAIN,
+    status-v1.$DOMAIN
+  default_port: 443
+  note: 'The instance $DOMAIN is issued per customer; there is no shared multi-tenant
+    production host.'
+  source: https://github.com/aalyria/api/blob/main/tools/nbictl/README.md
+resource_naming:
+  style: 'Google AIP-style resource-oriented RPC naming: Get/List/Create/Update/Delete/Batch*/Purge*
+    over a named resource, plus Query* for solver output.'
+  verbs_observed:
+  - Get
+  - List
+  - Query
+  - Create
+  - Update
+  - Delete
+  - BatchCreate
+  - BatchUpdate
+  - BatchDelete
+  - Purge
+  - Upsert
+  - Copy
+  - Check
+idempotency:
+  supported: false
+  header: null
+  note: 'No idempotency key, client token or request-deduplication contract is published.
+    Write RPCs are not documented as idempotent, and no Idempotency-Key equivalent
+    exists in any proto. The declarative `nbictl model-v1 sync` / `provisioning-v1alpha
+    sync` flow is convergent (a repeated sync of the same source files converges on
+    the same remote state) but that is a client-side reconciliation loop, not a server-side
+    idempotency guarantee.'
+  convergent_client_sync: true
+  convergent_client_sync_source: https://github.com/aalyria/api/blob/main/tools/nbictl/README.md
+pagination:
+  style: token-based (page_size / page_token / next_page_token)
+  partial: true
+  supported_on:
+  - service: aalyria.spacetime.api.permissions.v1alpha.Permissions
+    rpc: ListAuthorizationConfigRevisions
+    fields:
+    - page_size
+    - page_token
+    - next_page_token
+    source: grpc/api/permissions/v1alpha/permissions.proto
+  - service: aalyria.spacetime.api.audit.v1alpha.AuditLogService
+    rpc: ListAuditMessages
+    fields:
+    - page_size
+    - page_token
+    - next_page_token
+    - filter
+    source: grpc/api/audit/v1alpha/audit_logs.proto
+  not_supported_on: 'The large List RPCs on the Model, Provisioning, Simulation and
+    Federation services return unpaginated repeated fields; ListEntities/ListRelationships
+    take a `filter` but no page_token.'
+filtering:
+  style: string filter expressions on List/Query requests
+  fields:
+  - filter
+  - subjects_filter
+  - target_platforms_filter
+  - transceiver_filter
+  sources:
+  - grpc/api/model/v1/model.proto
+  - grpc/api/audit/v1alpha/audit_logs.proto
+  - grpc/api/federation/interconnect/v1alpha/interconnect.proto
+partial_update:
+  style: field masks on Update RPCs
+  masks:
+  - type: google.protobuf.FieldMask
+    field: update_mask
+    used_by:
+    - grpc/api/provisioning/v1alpha/provisioning.proto
+  - type: aalyria.spacetime.api.common.FieldMask
+    field: update_mask
+    used_by:
+    - grpc/api/scheduling/v1alpha/scheduling.proto
+    note: Spacetime defines its own FieldMask message in api/common/field_mask.proto
+      for the control-plane messages.
+error_envelope:
+  style: gRPC status codes plus google.rpc.Status detail messages
+  problem_json: false
+  rfc9457: false
+  types:
+  - google.rpc.Status
+  - google.rpc.Code
+  embedded_status_note: 'Beyond RPC-level status, Spacetime embeds google.rpc.Status
+    inside domain messages to report asynchronous enactment outcomes (scheduled /
+    enactment_attempted / unscheduled / completed on ControlPlaneUpdate, and agent_failure_code
+    on intents), so failures of a scheduled action surface as data, not as an RPC error.'
+  artifact: errors/aalyria-problem-types.yml
+streaming:
+  supported: true
+  bidirectional:
+  - service: aalyria.spacetime.api.scheduling.v1alpha.Scheduling
+    rpc: ReceiveRequests
+    description: Long-lived bidirectional stream over which an SBI agent receives control
+      requests from the Spacetime controller and returns per-request responses.
+    correlation_field: request_id
+    source: grpc/api/scheduling/v1alpha/scheduling.proto
+  push:
+  - service: aalyria.spacetime.api.telemetry.v1alpha.Telemetry
+    rpc: ExportMetrics
+    description: Devices push metrics and observations to Spacetime.
+    source: grpc/api/telemetry/v1alpha/telemetry.proto
+  webhooks: false
+  webhooks_note: No HTTP webhook or event-subscription surface is published; the event
+    surface is the SBI gRPC stream.
+request_tracing:
+  request_id_header: null
+  in_band_correlation: request_id on the Scheduling bidirectional stream messages
+  audit_trail: aalyria.spacetime.api.audit.v1alpha.AuditLogService.ListAuditMessages
+observability:
+  metrics_format: OpenTelemetry metrics protobuf (opentelemetry.proto.metrics.v1)
+  exposed_via: aalyria.spacetime.api.status.v1.StatusService.GetMetrics
+  source: grpc/api/status/v1/status.proto
+versioning:
+  style: version segment in the protobuf package and in the endpoint subdomain
+  stability_in_version: true
+  artifact: lifecycle/aalyria-lifecycle.yml
+rate_limiting:
+  published: false
+  note: No rate-limit policy, quota documentation or rate-limit metadata field was
+    found. nbictl exposes a client-side --max-concurrency (default 100) for sync operations,
+    which is a client throttle rather than a server-advertised limit.
+time_model:
+  note: 'Spacetime is temporospatial — most resources carry validity intervals and
+    time-dynamic motion models rather than a single mutable current state. api/common/time.proto,
+    api/common/coordinates.proto and api/common/platform.proto define the shared time
+    and geometry vocabulary all three interfaces use.'
+  sources:
+  - grpc/api/common/time.proto
+  - grpc/api/common/coordinates.proto
+  - grpc/api/common/platform.proto
+cross_links:
+  authentication: authentication/aalyria-authentication.yml
+  errors: errors/aalyria-problem-types.yml
+  lifecycle: lifecycle/aalyria-lifecycle.yml
+  data_model: data-model/aalyria-data-model.yml
+  conformance: conformance/aalyria-conformance.yml
