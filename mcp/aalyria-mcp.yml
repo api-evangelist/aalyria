@@ -4,18 +4,20 @@ status: candidate
 source: grpc/ (13 gRPC services, 182 RPCs from github.com/aalyria/api)
 searched:
   result: none
-  note: No official or third-party hosted MCP server for Aalyria Spacetime was found on 2026-08-02. Searched the
-    Aalyria GitHub org (5 repos, none MCP), the docs site, npm @modelcontextprotocol and the public MCP registries.
-    Aalyria publishes no llms.txt and no /.well-known/ discovery documents (all probed 404).
+  note: No official or third-party hosted MCP server for Aalyria Spacetime was found on 2026-08-02. Searched
+    the Aalyria GitHub org (5 repos, none MCP), the docs site, npm @modelcontextprotocol and the public
+    MCP registries. Aalyria publishes no llms.txt and no /.well-known/ discovery documents (all probed
+    404).
 server:
   name: aalyria-spacetime
   published: false
   transport: null
   url: null
   note: Candidate only. Spacetime is deployed per customer instance behind self-signed-JWT auth on a customer-specific
-    $DOMAIN, so any MCP server would be self-hosted alongside the instance rather than offered as a shared remote
-    endpoint. Tool names below are derived mechanically from real gRPC RPCs; each tool inherits its input contract
-    from the request message of the referenced RPC in the published protos. No input schemas are asserted here.
+    $DOMAIN, so any MCP server would be self-hosted alongside the instance rather than offered as a shared
+    remote endpoint. Tool names below are derived mechanically from real gRPC RPCs; each tool inherits
+    its input contract from the request message of the referenced RPC in the published protos. No input
+    schemas are asserted here.
 input_schema_source: the request message of each referenced RPC in grpc/api/**
 coverage:
   services: 13
@@ -751,3 +753,9 @@ tools:
   rpc: outernet.federation.transponder.v1alpha.TransponderService.DeleteChannel
   source_operation: grpc/api/federation/transponder/v1alpha/transponder.proto#TransponderService.DeleteChannel
   kind: write
+deployment:
+  mode: none
+  verified: derived
+  tools: 182
+  checked: '2026-08-12'
+  source: catalog MCP census
