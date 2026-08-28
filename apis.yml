@@ -15,6 +15,19 @@ description: 'Aalyria Technologies builds software and hardware for operating re
   The company was spun out of Alphabet in 2022, carrying technology developed for
   Project Loon and Taara.'
 url: https://raw.githubusercontent.com/api-evangelist/aalyria/refs/heads/main/apis.yml
+deliveryModel:
+  model: open-core
+  license: Apache-2.0
+  open_source: true
+  commercial: true
+  callable_host: false
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://kinlane-productions2.s3.amazonaws.com/api-evangelist-site/companies/aalyria.png
 x-type: company
 x-source: harvest:secondary-market
