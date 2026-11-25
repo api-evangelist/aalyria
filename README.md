@@ -111,18 +111,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 36.3** — thin · rubric 0.24.0 · scored 2026-10-17
+**Kin Score 37.9** — thin · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
 | Discoverability | 78.6 |
 | Contract quality | 24.0 |
 | Contract governance | 4.5 |
-| Operational transparency | 26.3 |
+| Operational transparency | 31.0 |
 | Developer ergonomics | 70.8 |
-| Access clarity | 21.1 |
+| Access clarity | 29.8 |
 
-**Agent readiness 17.1** — agent-aware
+**Agent readiness 16.7** — agent-aware
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -145,8 +145,14 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Protected Resource Metadata | — |
 | Dynamic Client Registration | — |
 | Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
-**Regulatory alignment 20.8** — Telecommunications
+**Regulatory alignment 15.8** — Telecommunications
 
 The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/aalyria/](https://apis.io/providers/aalyria/).
 
